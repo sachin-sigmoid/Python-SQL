@@ -21,7 +21,7 @@ def solution1(cur):
 
 # Function for getting the total compensation given and storing it in the xlxs file
 def solution2(cur):
-    # For getting different coloumns and inner join
+    # For getting different coloumns and inner join on
     cur.execute(
         "select e.empno,e.ename,d.dname,comms.comm*comms.mon,comms.mon "
         "from (select empno,Cast(((Cast (Current_date-min(startdate) as float))/365.0*12) as Int) as mon,"
