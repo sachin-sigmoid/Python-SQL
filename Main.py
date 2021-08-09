@@ -21,7 +21,6 @@ def solution1(cur):
 
 # Function for getting the total compensation given and storing it in the xlxs file
 def solution2(cur):
-    # For getting different coloumns and inner join on
     cur.execute(
         "select e.empno,e.ename,d.dname,comms.comm*comms.mon,comms.mon "
         "from (select empno,Cast(((Cast (Current_date-min(startdate) as float))/365.0*12) as Int) as mon,"
@@ -29,14 +28,17 @@ def solution2(cur):
         "sum(CASE when comm is not null then comm else 0 end) comm from jobhist group by(empno)) comms "
         "inner join emp e on e.empno=comms.empno inner join dept d on d.deptno=e.deptno")
     df2 = pd.DataFrame(cur.fetchall())
+    
+    # command for saving output to compensation.xlsx
     df2.to_excel('compensation.xlsx',
                  header=["Emm No", "Emp Name", "Dept Name", "Total Compensation", "Months Spent in Organization"],
                  index=False)
+    #command for saving the output in csv format for further processing
     df2.to_csv('c.csv',
                header=["Emp No", "Emp Name", "Dept Name", "Total Compensation", "Months Spent in Organization"],
                index=False)
 
-
+# function for taking the input through csv file and 
 def solution3(cur):
 
     cur.execute("COPY employee FROM '/Users/sachin/Desktop/c.csv' "
